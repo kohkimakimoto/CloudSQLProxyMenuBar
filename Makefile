@@ -43,15 +43,15 @@ build-bundle: bindata ## Build macOS Application bundle
 
 .PHONY: clean
 clean: ## clean built outputs
-	rm -rf dist
+	@rm -rf dist
 
 .PHONY: testcov
 testcov: ## Run all tests and outputs coverage report.
-	gocov test $$(go list ./... | grep -v vendor) | gocov-html > coverage-report.html
+	@gocov test $$(go list ./... | grep -v vendor) | gocov-html > coverage-report.html
 
 .PHONY: deps
 deps: ## Install dependences.
-	go mod tidy
+	@go mod tidy
 
 .PHONY: installtools
 installtools: ## Install dev tools
