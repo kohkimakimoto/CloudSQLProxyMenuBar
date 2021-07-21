@@ -78,7 +78,7 @@ def main():
             <key>CFBundleIconFile</key>
             <string>CloudSQLProxyMenuBar</string>
             <key>CFBundleIdentifier</key>
-            <string>com.kohkimakimoto.CloudSQLProxyMenuBar</string>
+            <string>dev.kohkimakimoto.CloudSQLProxyMenuBar</string>
             <key>CFBundleName</key>
             <string>CloudSQLProxyMenuBar</string>
             <key>CFBundlePackageType</key>
