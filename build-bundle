@@ -84,7 +84,7 @@ def main():
             <key>CFBundlePackageType</key>
             <string>APPL</string>
             <key>CFBundleVersion</key>
-            <string>1.28</string>
+            <string>2.0.0</string>
             <key>NSHighResolutionCapable</key>
             <string>True</string>
             <key>LSUIElement</key>
