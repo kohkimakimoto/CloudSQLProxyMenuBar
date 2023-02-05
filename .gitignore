@@ -5,12 +5,7 @@ Thumbs.db
 *.iml
 .idea/
 .vscode/
-
-.go-tools/
-
-/.envrc
-/coverage-report.html
-/dist
-/assets/bindata.go
+node_modules/
+dist/
 
 !.gitkeep

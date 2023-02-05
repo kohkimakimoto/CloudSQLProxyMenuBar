@@ -1,0 +1,11 @@
+{
+  "name": "cloudsqlproxymenubar",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "appdmg appdmg.json dist/dmg/CloudSQLProxyMenuBar.dmg"
+  },
+  "license": "The MIT License",
+  "dependencies": {
+    "appdmg": "^0.6.6"
+  }
+}
