@@ -45,6 +45,7 @@ build/app: guard-ARCH
 	$(eval APP_PATH := dist/apps/$(ARCH)/CloudSQLProxyMenuBar.app)
 	$(eval INFO_PLIST_FILE := $(APP_PATH)/Contents/Info.plist)
 
+	@echo "Building OSX app: $(APP_PATH) ..."
 	@rm -rf $(APP_PATH)
 	@mkdir -p $(APP_PATH)/Contents/{MacOS,Resources}
 	@cp -p AppIcon.icns $(APP_PATH)/Contents/Resources/AppIcon.icns
@@ -90,6 +91,7 @@ build/app: guard-ARCH
 	@echo '  </dict>' >> $(INFO_PLIST_FILE)
 	@echo '</plist>' >> $(INFO_PLIST_FILE)
 
+	@echo "Building $(ARCH) executable ..."
 	@GOOS=darwin GOARCH=$(ARCH) CGO_ENABLED=1 go build -ldflags="-s -w" -o="$(APP_PATH)/Contents/MacOS/cloudsqlproxymenubar" .
 
 
