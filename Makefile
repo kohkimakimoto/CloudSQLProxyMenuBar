@@ -1,16 +1,17 @@
 .DEFAULT_GOAL := help
 
+SHELL := bash
+VERSION := 0.3.0
+DMG_PKG := dist/dmg/CloudSQLProxyMenuBar.app
+APP_ROOT := dist/apps
+INFO_PLIST_FILE := $(DMG_PKG)/Contents/Info.plist
+
 # Load .env file if it exists.
 ifneq (,$(wildcard ./.env))
   include .env
   export
 endif
 
-SHELL := bash
-VERSION := 0.3.0
-DMG_PKG := dist/dmg/CloudSQLProxyMenuBar.app
-APP_ROOT := dist/apps
-INFO_PLIST_FILE := $(DMG_PKG)/Contents/Info.plist
 
 .PHONY: help
 help: ## Show help
