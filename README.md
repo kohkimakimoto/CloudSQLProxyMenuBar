@@ -29,16 +29,16 @@ log_file = "/path/to/logfile"
 #
 # proxies.xxx is the section of the Cloud SQL Proxy settings.
 #
-[proxies.your-instance]
+[proxies.cloudsqlinstance1]
 # Optional: The text is displayed on the menu item.
 # The default is the same as 'XXX' part of 'proxies.XXX'.
-label = "proxy-to-yourinstance1"
+label = "proxy-to-cloudsqlinstance1"
 
 # Required: The command line arguments passed to 'cloud_sql_proxy' command.
-arguments = "-dir=/cloudsql -instances=yourproject:asia-northeast1:yourinstance1"
+arguments = "-dir=/cloudsql -instances=yourproject:asia-northeast1:cloudsqlinstance1 -credential_file=/path/to/service_account.json"
 
 # You can set proxy config multiple times.
-# [proxies.yourinstance2]
+# [proxies.cloudsqlinstance2]
 # ...
 ```
 

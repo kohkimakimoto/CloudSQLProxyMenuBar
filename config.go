@@ -18,22 +18,22 @@ const InitialConfig = `# This is the main configuration file of CloudSQLProxyMen
 # cloud_sql_proxy = "/path/to/cloud_sql_proxy"
 
 # Optional: The log file path.
-# The default is '$HOME/.cloudsqlproxymenubar/output.log''
+# The default is '$HOME/.cloudsqlproxymenubar/output.log'
 # log_file = "/path/to/logfile"
 
 #
 # proxies.xxx is the section of the Cloud SQL Proxy settings.
 #
-# [proxies.yourinstance]
+# [proxies.cloudsqlinstance1]
 # Optional: The text is displayed on the menu item.
 # The default is the same as 'XXX' part of 'proxies.XXX'.
-# label = "proxy-to-yourinstance1"
+# label = "proxy-to-cloudsqlinstance1"
 
 # Required: The command line arguments passed to 'cloud_sql_proxy' command.
-# arguments = "-dir=/cloudsql -instances=yourcompany:asia-northeast1:yourinstance -credential_file=xxx.json"
+# arguments = "-dir=/cloudsql -instances=yourproject:asia-northeast1:cloudsqlinstance1 -credential_file=/path/to/service_account.json"
 
-# You can add proxy config multiple times.
-# [proxies.yourinstance2]
+# You can set proxy config multiple times.
+# [proxies.cloudsqlinstance2]
 # ...
 `
 
