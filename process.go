@@ -17,17 +17,12 @@ type Process struct {
 }
 
 func (p *Process) Run() error {
-	fname, err := exec.LookPath(p.CloudSqlProxy)
-	if err != nil {
-		return err
-	}
-
 	args, err := shellwords.Parse(p.ProxyConfig.Arguments)
 	if err != nil {
 		return err
 	}
 
-	cmd := exec.Command(fname, args[0:]...)
+	cmd := exec.Command(p.CloudSqlProxy, args[0:]...)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = p.LogFile
 	cmd.Stderr = p.LogFile

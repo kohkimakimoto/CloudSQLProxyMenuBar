@@ -12,10 +12,9 @@ const InitialConfig = `# This is the main configuration file of CloudSQLProxyMen
 # core is the section of CloudSQLProxyMenuBar global config.
 #
 [core]
-# Optional: The path to 'cloud_sql_proxy' command.
-# If you don't specify it, CloudSQLProxyMenuBar uses 'cloud_sql_proxy' command in your PATH.
+# Required: The path to 'cloud_sql_proxy' command.
 # If you are not familiar with cloud_sql_proxy, please read the document: https://cloud.google.com/sql/docs/mysql/sql-proxy
-# cloud_sql_proxy = "/path/to/cloud_sql_proxy"
+cloud_sql_proxy = "/path/to/cloud_sql_proxy"
 
 # Optional: The log file path.
 # The default is '$HOME/.cloudsqlproxymenubar/output.log'
@@ -45,8 +44,8 @@ type Config struct {
 func NewConfig() *Config {
 	return &Config{
 		Core: &CoreConfig{
+			CloudSqlProxy: "",
 			LogFile:       "",
-			CloudSqlProxy: "cloud_sql_proxy",
 		},
 		Proxies: map[string]*ProxyConfig{},
 	}
@@ -62,8 +61,8 @@ func (c *Config) SortedProxyKeys() []string {
 }
 
 type CoreConfig struct {
-	LogFile       string `toml:"log_file"`
 	CloudSqlProxy string `toml:"cloud_sql_proxy"`
+	LogFile       string `toml:"log_file"`
 }
 
 type ProxyConfig struct {

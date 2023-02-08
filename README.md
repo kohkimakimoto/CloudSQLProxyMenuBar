@@ -6,7 +6,7 @@ CloudSQLProxyMenuBar displays a menu to manage [Cloud SQL Auth Proxy](https://cl
 
 ## Installation
 
-[Download latest version](https://github.com/kohkimakimoto/CloudSQLProxyMenuBar/releases/latest)
+[Download the latest version](https://github.com/kohkimakimoto/CloudSQLProxyMenuBar/releases/latest)
 
 ## Configuration
 
@@ -17,10 +17,9 @@ CloudSQLProxyMenuBar loads configuration from `$HOME/.cloudsqlproxymenubar/confi
 # core is the section of CloudSQLProxyMenuBar global config.
 #
 [core]
-# Optional: The path to 'cloud_sql_proxy' command.
-# If you don't specify it, CloudSQLProxyMenuBar uses 'cloud_sql_proxy' command in your PATH.
+# Required: The path to 'cloud_sql_proxy' command.
 # If you are not familiar with cloud_sql_proxy, please read the document: https://cloud.google.com/sql/docs/mysql/sql-proxy
-cloud_sql_proxy = "/usr/local/bin/cloud_sql_proxy"
+cloud_sql_proxy = "/path/to/cloud_sql_proxy"
 
 # Optional: The log file path.
 # The default is '$HOME/.cloudsqlproxymenubar/output.log'
