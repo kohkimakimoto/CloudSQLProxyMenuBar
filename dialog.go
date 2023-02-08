@@ -12,7 +12,7 @@ func DisplayDialog(msg string) error {
 	if err != nil {
 		return err
 	}
-	script := fmt.Sprintf("display dialog %q with icon note buttons {\"OK\"} default button \"OK\"", msg)
+	script := fmt.Sprintf("display dialog %q with title \"CloudSQLProxyMenuBar\" with icon caution buttons {\"OK\"} default button \"OK\"", msg)
 	cmd := exec.Command(osa, "-e", script)
 	return cmd.Run()
 }
