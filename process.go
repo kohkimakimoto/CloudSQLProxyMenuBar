@@ -41,3 +41,15 @@ func (p *Process) Kill() error {
 	}
 	return p.Cmd.Process.Kill()
 }
+
+func (p *Process) RunScript(script string) error {
+	cmd := exec.Command("/bin/bash", "-c", script)
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = p.LogFile
+	cmd.Stderr = p.LogFile
+	cmd.Dir = p.Dir
+	if err := cmd.Start(); err != nil {
+		return err
+	}
+	return cmd.Wait()
+}

@@ -64,17 +64,29 @@ func (a *App) StartProcess(config *ProxyConfig, item *systray.MenuItem) {
 
 	go func(proc *Process) {
 		proc.Item.Check()
+
+		defer func() {
+			if proc.ProxyConfig.After != "" {
+				if err := proc.RunScript(proc.ProxyConfig.After); err != nil {
+					a.HandleError(err)
+				}
+			}
+			a.DeleteProcess(proc.ProxyConfig.Name)
+			proc.Item.Uncheck()
+		}()
+
+		if proc.ProxyConfig.Before != "" {
+			if err := proc.RunScript(proc.ProxyConfig.Before); err != nil {
+				a.HandleError(err)
+				return
+			}
+		}
+
 		if err := proc.Run(); isSigKillErr(err) == false {
 			// If the process was killed by SIGKILL, we don't need to handle the error.
 			// Because it is a normal shutdown process by clicking the menu item.
 			a.HandleError(err)
 		}
-
-		a.Mutex.Lock()
-		defer a.Mutex.Unlock()
-		delete(a.Processes, proc.ProxyConfig.Name)
-		a.ChangeProcessesCh <- len(a.Processes)
-		proc.Item.Uncheck()
 	}(proc)
 }
 
@@ -87,6 +99,14 @@ func isSigKillErr(err error) bool {
 		}
 	}
 	return false
+}
+
+func (a *App) DeleteProcess(name string) {
+	a.Mutex.Lock()
+	defer a.Mutex.Unlock()
+
+	delete(a.Processes, name)
+	a.ChangeProcessesCh <- len(a.Processes)
 }
 
 func (a *App) GetProcess(name string) *Process {

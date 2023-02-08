@@ -31,6 +31,12 @@ cloud_sql_proxy = "/path/to/cloud_sql_proxy"
 # Required: The command line arguments passed to 'cloud_sql_proxy' command.
 # arguments = "-dir=/cloudsql -instances=yourproject:asia-northeast1:cloudsqlinstance1 -credential_file=/path/to/service_account.json"
 
+# Optional: The script to execute before starting the Cloud SQL Proxy.
+# before = "echo before"
+
+# Optional: The script to execute after stopping the Cloud SQL Proxy.
+# after = "echo after"
+
 # You can set proxy config multiple times.
 # [proxies.cloudsqlinstance2]
 # ...
