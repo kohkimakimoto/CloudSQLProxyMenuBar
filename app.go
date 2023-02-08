@@ -1,30 +1,32 @@
 package main
 
 import (
+	"fmt"
 	"github.com/getlantern/systray"
 	"log"
 	"os"
+	"os/exec"
 	"sync"
+	"syscall"
 )
 
 type App struct {
-	Config             *Config
-	Dir                string
-	NotificationSender NotificationSender
-	LogFile            *os.File
-	Logger             *log.Logger
-	Processes          map[string]*Process
-	Mutex              *sync.Mutex
-	ChangeProcessesCh  chan int
+	Config            *Config
+	Dir               string
+	DisplayDialog     DisplayDialogFunc
+	LogFile           *os.File
+	Logger            *log.Logger
+	Processes         map[string]*Process
+	Mutex             *sync.Mutex
+	ChangeProcessesCh chan int
 }
 
 func (a *App) HandleError(err error) {
 	a.Logger.Println(err)
-	a.NotificationSender.HandleError(err)
-}
 
-func (a *App) Notify(msg string) error {
-	return a.NotificationSender.Notify(msg)
+	if err := a.DisplayDialog(fmt.Sprintf("%s\n\nFor more information, please see the log file: %s", err.Error(), a.Config.Core.LogFile)); err != nil {
+		a.Logger.Println(err)
+	}
 }
 
 func (a *App) HandleProxyAction(config *ProxyConfig, item *systray.MenuItem) {
@@ -39,14 +41,6 @@ func (a *App) HandleProxyAction(config *ProxyConfig, item *systray.MenuItem) {
 }
 
 func (a *App) KillProcess(proc *Process) {
-	a.Mutex.Lock()
-	defer a.Mutex.Unlock()
-
-	delete(a.Processes, proc.ProxyConfig.Name)
-	a.ChangeProcessesCh <- len(a.Processes)
-
-	proc.Item.Uncheck()
-
 	if err := proc.Kill(); err != nil {
 		a.HandleError(err)
 	}
@@ -69,12 +63,30 @@ func (a *App) StartProcess(config *ProxyConfig, item *systray.MenuItem) {
 	a.ChangeProcessesCh <- len(a.Processes)
 
 	go func(proc *Process) {
-		defer a.KillProcess(proc)
 		proc.Item.Check()
-		if err := proc.Run(); err != nil {
+		if err := proc.Run(); checkErrAsSigKill(err) == false {
+			// If the process was killed by SIGKILL, we don't need to handle the error.
+			// Because it is a normal shutdown process by clicking the menu item.
 			a.HandleError(err)
 		}
+
+		a.Mutex.Lock()
+		defer a.Mutex.Unlock()
+		delete(a.Processes, proc.ProxyConfig.Name)
+		a.ChangeProcessesCh <- len(a.Processes)
+		proc.Item.Uncheck()
 	}(proc)
+}
+
+func checkErrAsSigKill(err error) bool {
+	if exiterr, ok := err.(*exec.ExitError); ok {
+		if status, ok := exiterr.Sys().(syscall.WaitStatus); ok {
+			if status.Signaled() && status.Signal() == syscall.SIGKILL {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 func (a *App) GetProcess(name string) *Process {
@@ -92,5 +104,4 @@ func (a *App) HandleExit() {
 	if a.LogFile != nil {
 		_ = a.LogFile.Close()
 	}
-	_ = a.Notify("The CloudSQLProxyMenuBar was stopped.")
 }

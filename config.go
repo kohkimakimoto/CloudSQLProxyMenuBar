@@ -69,6 +69,8 @@ type ProxyConfig struct {
 	Name      string `toml:"-"`
 	Label     string `toml:"label"`
 	Arguments string `toml:"arguments"`
+	Before    string `toml:"before"`
+	After     string `toml:"after"`
 }
 
 func (c *ProxyConfig) LabelOrName() string {

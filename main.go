@@ -15,12 +15,12 @@ import (
 
 func main() {
 	app := &App{
-		Dir:                filepath.Join(homeDir(), ".cloudsqlproxymenubar"),
-		NotificationSender: &notificationSender{},
-		Logger:             log.Default(),
-		Processes:          map[string]*Process{},
-		Mutex:              new(sync.Mutex),
-		ChangeProcessesCh:  make(chan int),
+		Dir:               filepath.Join(homeDir(), ".cloudsqlproxymenubar"),
+		DisplayDialog:     DisplayDialog,
+		Logger:            log.Default(),
+		Processes:         map[string]*Process{},
+		Mutex:             new(sync.Mutex),
+		ChangeProcessesCh: make(chan int),
 	}
 
 	// Construct config with default values
@@ -128,7 +128,6 @@ func onExit() {
 	if g.LogFile != nil {
 		_ = g.LogFile.Close()
 	}
-	_ = g.Notify("The CloudSQLProxyMenuBar was stopped.")
 }
 
 func homeDir() string {
