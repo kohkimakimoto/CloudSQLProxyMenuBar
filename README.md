@@ -1,12 +1,12 @@
 # CloudSQLProxyMenuBar
 
-CloudSQLProxyMenuBar displays a menu to manage [Cloud SQL Proxy](https://cloud.google.com/sql/docs/mysql/sql-proxy) processes on macOS menu bar.
+CloudSQLProxyMenuBar displays a menu to manage [Cloud SQL Auth Proxy](https://cloud.google.com/sql/docs/mysql/sql-proxy) processes on macOS menu bar.
 
 ![screenshot.png](https://raw.githubusercontent.com/kohkimakimoto/CloudSQLProxyMenuBar/master/screenshot.png)
 
 ## Installation
 
-[Download latest version](https://github.com/kohkimakimoto/CloudSQLProxyMenuBar/releases/latest)
+[Download the latest version](https://github.com/kohkimakimoto/CloudSQLProxyMenuBar/releases/latest)
 
 ## Configuration
 
@@ -17,26 +17,33 @@ CloudSQLProxyMenuBar loads configuration from `$HOME/.cloudsqlproxymenubar/confi
 # core is the section of CloudSQLProxyMenuBar global config.
 #
 [core]
-# optional: The path of `cloud_sql_proxy` command.
-# If you do not set it, CloudSQLProxyMenuBar uses builtin `cloud_sql_proxy` command.
-cloud_sql_proxy = "/usr/local/bin/cloud_sql_proxy"
+# Required: The path to 'cloud_sql_proxy' command.
+# If you are not familiar with cloud_sql_proxy, please read the document: https://cloud.google.com/sql/docs/mysql/sql-proxy
+cloud_sql_proxy = "/path/to/cloud_sql_proxy"
 
-# optional: The log file path.
-# The default is `$HOME/.cloudsqlproxymenubar/output.log`
+# Optional: The log file path.
+# The default is '$HOME/.cloudsqlproxymenubar/output.log'
 log_file = "/path/to/logfile"
 
 #
 # proxies.xxx is the section of the Cloud SQL Proxy settings.
 #
-[proxies.yourinstance1]
-# optional: The text is displayed on the menu item.
-# The default is the same as `XXX` of `proxies.XXX`.
-label = "proxy-to-yourinstance1"
-# required: The command line options of `cloud_sql_proxy` command.
-options = "-dir=/cloudsql -instances=yourproject:asia-northeast1:yourinstance1"
+[proxies.cloudsqlinstance1]
+# Optional: The text is displayed on the menu item.
+# The default is the same as 'XXX' part of 'proxies.XXX'.
+label = "proxy-to-cloudsqlinstance1"
+
+# Required: The command line arguments passed to 'cloud_sql_proxy' command.
+arguments = "-dir=/cloudsql -instances=yourproject:asia-northeast1:cloudsqlinstance1 -credential_file=/path/to/service_account.json"
+
+# Optional: The script to execute before starting the Cloud SQL Proxy.
+before = "echo before"
+
+# Optional: The script to execute after stopping the Cloud SQL Proxy.
+after = "echo after"
 
 # You can set proxy config multiple times.
-# [proxies.yourinstance2]
+# [proxies.cloudsqlinstance2]
 # ...
 ```
 
