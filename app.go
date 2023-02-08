@@ -64,7 +64,7 @@ func (a *App) StartProcess(config *ProxyConfig, item *systray.MenuItem) {
 
 	go func(proc *Process) {
 		proc.Item.Check()
-		if err := proc.Run(); checkErrAsSigKill(err) == false {
+		if err := proc.Run(); isSigKillErr(err) == false {
 			// If the process was killed by SIGKILL, we don't need to handle the error.
 			// Because it is a normal shutdown process by clicking the menu item.
 			a.HandleError(err)
@@ -78,7 +78,7 @@ func (a *App) StartProcess(config *ProxyConfig, item *systray.MenuItem) {
 	}(proc)
 }
 
-func checkErrAsSigKill(err error) bool {
+func isSigKillErr(err error) bool {
 	if exiterr, ok := err.(*exec.ExitError); ok {
 		if status, ok := exiterr.Sys().(syscall.WaitStatus); ok {
 			if status.Signaled() && status.Signal() == syscall.SIGKILL {
