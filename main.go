@@ -73,8 +73,8 @@ func start() error {
 		g.Logger.SetOutput(f)
 		g.LogFile = f
 	}
-
-	systray.SetIcon(Icon)
+	
+	systray.SetTemplateIcon(Icon, Icon)
 	systray.SetTitle("SQL")
 
 	// Construct proxy menu items
