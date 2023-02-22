@@ -91,8 +91,8 @@ func (a *App) StartProcess(config *ProxyConfig, item *systray.MenuItem) {
 }
 
 func isSigKillErr(err error) bool {
-	if exiterr, ok := err.(*exec.ExitError); ok {
-		if status, ok := exiterr.Sys().(syscall.WaitStatus); ok {
+	if exitErr, ok := err.(*exec.ExitError); ok {
+		if status, ok := exitErr.Sys().(syscall.WaitStatus); ok {
 			if status.Signaled() && status.Signal() == syscall.SIGKILL {
 				return true
 			}
